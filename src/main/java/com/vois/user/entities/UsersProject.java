@@ -43,4 +43,8 @@ public class UsersProject{
 	//@Pattern(regexp="((?=.*\\d)(?=.*[a-z])(?=.*[#@$*]).{6,20})",message = "Invalid Password!")
 	private String password;
 	
+	private String role;
+	
+	
+	
 }

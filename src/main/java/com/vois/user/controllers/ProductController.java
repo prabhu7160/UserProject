@@ -30,7 +30,7 @@ public class ProductController {
 		ProductsDto addProduct = this.productService.createProduct(productDto);
 		return new ResponseEntity<>(addProduct,HttpStatus.CREATED);
 		
-	}
+	}         
 //PUT
 	@PutMapping("/edit/{productId}")
 	public ResponseEntity<ProductsDto> updateProduct(@RequestBody ProductsDto productDto, @PathVariable Integer productId){

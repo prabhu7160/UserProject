@@ -16,8 +16,8 @@ import com.vois.user.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebMvc
+@EnableWebSecurity
 public class SecurityConfig{
-
 
     @Autowired
     private JwtAuthenticationEntryPoint point;
@@ -26,20 +26,32 @@ public class SecurityConfig{
     
     public static final String[] PUBLIC_URLS= {
 			"/auth/login",
-			"/v2/api-docs",
 			"/swagger-resources/**",
 			"/swagger-ui/**",
+			"/user/authenticate",
+			"/user/register",
+			"/admin/authenticate",
+			"/admin/register",
 			"/webjars/**"};
 
+    public static final String[] AUTHENTICATED_URLS= {
+    		"/user/authenticate",
+			"/user/register",
+			"/admin/authenticate",
+			"/admin/register",
+			"/user/**",
+			"/admin/**"};
+    
     @Bean
     public SecurityFilterChain securityFilterChaining(HttpSecurity http) throws Exception {
 
     	http.csrf(csrf -> csrf.disable())
         .cors(cors -> cors.disable())
         .authorizeHttpRequests(auth ->
-            auth.requestMatchers("/user/**").authenticated() // Add this line to permit /user endpoints
-                .requestMatchers(PUBLIC_URLS).permitAll()
-                .anyRequest().authenticated()
+            auth
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/userproject/**").hasRole("USER")
+                .requestMatchers("/**").permitAll()
         )
         .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -48,4 +60,14 @@ public class SecurityConfig{
     return http.build();
     }
 
+    @Bean
+    public JwtAuthenticationFilter authenticationTokenFilterBean() throws Exception{
+    	return new JwtAuthenticationFilter();
+    }
+    
+//    @Bean
+//    public AuthenticationManager authenticationManagerBean() throws Exception{
+//    	return this.authenticationManagerBean();
+//    }
+    
     }

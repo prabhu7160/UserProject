@@ -21,6 +21,12 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private ModelMapper modelMapper;
 
+//	@Override
+//    public UsersDto getUserById(Integer userId) {
+//        UsersProject user = this.userRepo.findById(userId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Users", "userId", userId));
+//        return modelMapper.map(user, UsersDto.class);
+//    }
 	@Override
 	public UsersDto getUserById(Integer userId) {
 		// TODO Auto-generated method stub
